@@ -1,5 +1,5 @@
-/node_modules
-# production
-/build
-
 .env
+.env.test
+package-lock.json
+node_modules/
+.gitinore
