@@ -2,4 +2,4 @@
 # production
 /build
 
-/.env
+.env
