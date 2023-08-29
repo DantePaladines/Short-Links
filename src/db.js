@@ -4,22 +4,27 @@ require("dotenv").config()
 const fs = require('fs');
 const path = require('path');
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PGDATABASE } = process.env
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PGDATABASE, DB_RENDER } = process.env
 
 const USER = DB_USER || DATABASE_USER
 const PASSWORD = DB_PASSWORD || DATABASE_PASSWORD
 const HOST = DB_HOST || DATABASE_HOST
 const NAME = DB_NAME || DATABASE_PGDATABASE
 
-const sequelize = new Sequelize(`postgres://${USER}:${PASSWORD}@${HOST}/${NAME}`, {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-})
-
-//const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+//const sequelize = new Sequelize(`postgres://${USER}:${PASSWORD}@${HOST}/${NAME}`, {
 //    logging: false, // set to console.log to see the raw SQL queries
 //    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 //})
+
+const sequelize = new Sequelize(DB_RENDER, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  dialectOptions: {
+    ssl: {
+      require: true,
+    }
+  }
+});
 
 const basename = path.basename(__filename);
 
